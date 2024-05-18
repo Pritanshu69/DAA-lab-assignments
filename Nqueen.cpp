@@ -24,3 +24,5 @@ bool isSafe(int board[MAX_N][MAX_N], int row, int col, int N){
     }
     return true;
 }
+
+bool solveNqueensUtil(int board[MAX_N][MAX_N],int row)
