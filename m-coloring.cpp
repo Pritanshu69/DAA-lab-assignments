@@ -31,4 +31,30 @@ bool graphColoringUtil(const vector<vector<int>> &graph, int m, vector<int> &col
     }
     return false;
 }
-//print the solution
+bool graphColoring(const vector<vector<int>> &graph, int m){
+    vector<int> color(graph.size(), 0);
+
+    if(!graphColoringUtil(graph,m,color,0)){
+        cout<<"no soluton"<<endl;
+        return false;
+    }
+    cout<<"solution: \n";
+    for(int i=0;i<graph.size();i++){
+        cout<<"Vertex: "<<i<<"-->color: "<<color[i]<<endl;
+    }
+    return true;
+}
+int main() {
+    // Example graph represented as an adjacency matrix
+    vector<vector<int>> graph = {
+        {0, 1, 1, 1},
+        {1, 0, 1, 0},
+        {1, 1, 0, 1},
+        {1, 0, 1, 0}
+    };
+
+    int m = 3; // Number of colors
+    graphColoring(graph, 4);
+
+    return 0;
+}
