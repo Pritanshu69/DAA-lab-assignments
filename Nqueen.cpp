@@ -1,67 +1,70 @@
-#include<iostream>
+#include <iostream>
 
 using namespace std;
 
-#define N 8
+const int MAX_N = 10; // Adjust the maximum value of N as per your requirement
 
-bool isSafe(int board[N][N],int row, int col){
-    int i,j;
-
-    //NOTE - check this row on left side
-    
-    for(int i=0;i<col;i++){
-        if(board[row][i])
-        return false;
+bool isSafe(int board[MAX_N][MAX_N], int row, int col, int N) {
+    // Check if there is a queen in the same column
+    for (int i = 0; i < row; ++i) {
+        if (board[i][col] == 1)
+            return false;
     }
 
-    //NOTE - check upper diagonal on left side
-    for(i=row,j=col;i>=0 && j>=0; i--,j--)
-        if(board[i][j])
-        return false;
+    // Check upper left diagonal
+    for (int i = row, j = col; i >= 0 && j >= 0; --i, --j) {
+        if (board[i][j] == 1)
+            return false;
+    }
 
-    //NOTE - check lower diagonal on left side
-    for(i=row,j=col;j+=0 && i<N; i++,j--)
-        if(board[i][j])
-        return false;
+    // Check upper right diagonal
+    for (int i = row, j = col; i >= 0 && j < N; --i, ++j) {
+        if (board[i][j] == 1)
+            return false;
+    }
 
     return true;
 }
 
-bool solveNQUtil(int board[N][N], int col) {
-    if (col >= N)
+bool solveNQueensUtil(int board[MAX_N][MAX_N], int row, int N) {
+    if (row == N)
         return true;
 
-    for(int i=0; i<N; i++){
-        if(isSafe(board, i, col)){
-            board[i][col] = 1;
+    for (int col = 0; col < N; ++col) {
+        if (isSafe(board, row, col, N)) {
+            board[row][col] = 1;
 
-        if(solveNQUtil(board,col+1))
-            return true;
+            if (solveNQueensUtil(board, row + 1, N))
+                return true;
 
-        board[i][col] = 0;
+            // Backtrack
+            board[row][col] = 0;
         }
     }
+
     return false;
 }
 
-bool solveNQ() {
-    int board[N][N] = {0};
+void solveNQueens(int N) {
+    int board[MAX_N][MAX_N] = {0};
 
-    if (solveNQUtil(board, 0) == false) {
-        cout << "Solution does not exist" << endl;
-        return false;
+    if (solveNQueensUtil(board, 0, N)) {
+        // Print the solution
+        for (int i = 0; i < N; ++i) {
+            for (int j = 0; j < N; ++j) {
+                cout << board[i][j] << " ";
+            }
+            cout << endl;
+        }
+    } else {
+        cout << "No solution exists." << endl;
     }
-
-    // Print solution
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++)
-            cout << " " << board[i][j] << " ";
-        cout << endl;
-    }
-    return true;
 }
 
 int main() {
-    solveNQ();
+    int N;
+    cout << "Enter the number of queens (N): ";
+    cin >> N;
+    solveNQueens(N);
     return 0;
 }
