@@ -54,7 +54,7 @@ int main() {
     };
 
     int m = 3; // Number of colors
-    graphColoring(graph, 4);
+    graphColoring(graph, 3);
 
     return 0;
 }
